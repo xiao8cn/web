@@ -1,0 +1,64 @@
+{
+  "data": [
+    4,
+    5,
+    6,
+    1,
+    2,
+    3,
+    4
+  ],
+  "xData": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "option": {
+    "grid": {
+      "left": 50,
+      "right": 50
+    },
+    "legend": {
+      "data": [
+        "折线"
+      ]
+    },
+    "xAxis": {
+      "type": "category",
+      "boundaryGap": false,
+      "data": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    "yAxis": {
+      "type": "value",
+      "boundaryGap": [
+        0,
+        "100%"
+      ],
+      "axisTick": {
+        "show": false
+      },
+      "splitLine": {
+        "show": false
+      }
+    },
+    "series": [
+      {
+        "type": "line",
+        "name": "折线",
+        "data": []
+      }
+    ]
+  }
+}

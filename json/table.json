@@ -1,0 +1,22 @@
+{
+  "wjj":{
+    "wjjTable":[
+      {
+        "name" : "1",
+        "type" : "echarts",
+        "tableLink" : "http://baidu.com"
+      },{
+        "name" : "2",
+        "type" : "echarts",
+        "tableLink" : "http://baidu.com"
+      },{
+        "name" : "3",
+        "type" : "echarts",
+        "tableLink" : "http://baidu.com"
+      }]
+  }
+}
+
+
+
+
