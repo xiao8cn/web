@@ -18,7 +18,7 @@
  * body部分
  */
 var WjjBody = React.createClass({
-    getInitialState:()=>({searchValue : "",navText:""}),
+    getInitialState:()=>({searchValue : "",navText:"123"}),
     /**
      * 子组件上传参数
      * @param value
@@ -181,6 +181,7 @@ var WjjSearchBody = React.createClass({
                 <span className="input-group-btn">
                     <button className="btn btn-default" type="button" onClick={this.handClick}>Go!</button>
                 </span>
+                
             </div>
         )
     }
@@ -190,3 +191,4 @@ ReactDOM.render(
     <WjjBody/>,
     document.getElementById("jj_web_content")
 );
+
