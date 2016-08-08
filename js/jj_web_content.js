@@ -179,7 +179,7 @@ var WjjSearchBody = React.createClass({
             <div className="input-group">
                 <input type="text" className="form-control" placeholder="Search for..." value={value} onChange={this.handChange}/>
                 <span className="input-group-btn">
-                    <button className="btn btn-default" type="button" onClick={this.handClick}>Go!</button>
+                    <button className="btn btn-default" type="button" onClick={this.handClick}>Gosadas!</button>
                 </span>
                 
             </div>
