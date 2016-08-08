@@ -8,17 +8,15 @@
  * 如果有学习react的朋友，可以参照下，入门初学者的写法。可能会对你的自学有帮助
  */
 var WjjTitle = React.createClass({
-    render : ()=>(<div className="wjjTitleBackground">
-                    <h1 className="col-md-8">xiao8的可视化驿站</h1>
-                    <img className="wjjPic" src="images/123.png"/>
-                </div>)
-})
+    render : ()=>{
+        let userName = "xiao8",
+            title = `欢迎来到${userName}的可视化驿站`;
 
-var WjjTitle3 = React.createClass({
-    render : ()=>(<div className="col-md-12 wjjTitleBackground">
-                    <h1 className="col-md-8">xiao8的可视化驿站</h1>
+        return (<div className="col-md-12 wjjTitleBackground">
+                    <h1 className="col-md-8">{title}</h1>
                     <img className="wjjPic" src="images/123.png"/>
                     </div>)
+    }
 })
 
 //头的组件

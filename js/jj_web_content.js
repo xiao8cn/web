@@ -52,11 +52,11 @@ var WjjBody = React.createClass({
 var WjjLineBody = React.createClass({
     getInitialState : ()=>({lineData:[]}),
     componentDidMount : function(){
-        $.get(this.props.source,(result)=>{
+        $.get(this.props.source,result=>{
             this.drawEchartsLine(result);
         })
     },
-    drawEchartsLine : (result)=>{
+    drawEchartsLine : (result = [])=>{
         let myChart = echarts.init(document.getElementById("lineChart"));
         let option = result.option;
         option.xAxis.data = result.xData;
@@ -85,13 +85,11 @@ var WjjNavTab = React.createClass({
     },
     render : function(){
 
-        let data = this.state.data;
-        let selectIndex = this.state.selectIndex;
+        let {data,selectIndex} = this.state;
 
         data = data.map((item,index)=>{
             if(index == selectIndex)
                 return <li key={index} className="active" role="presentation"><a onClick={this.onClick.bind(this,{index})}>{item.name}</a></li>
-
             return <li key={index} role="presentation"><a onClick={this.onClick.bind(this,{index})}>{item.name}</a></li>;
         });
 
@@ -181,7 +179,6 @@ var WjjSearchBody = React.createClass({
                 <span className="input-group-btn">
                     <button className="btn btn-default" type="button" onClick={this.handClick}>Go!</button>
                 </span>
-                
             </div>
         )
     }

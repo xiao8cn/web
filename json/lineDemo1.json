@@ -29,6 +29,9 @@
     },
     "xAxis": {
       "type": "category",
+      "axisTick": {
+        "show": false
+      },
       "boundaryGap": false,
       "data": [
         1,
