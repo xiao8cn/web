@@ -18,7 +18,7 @@
  * body部分
  */
 var WjjBody = React.createClass({
-    getInitialState:()=>({searchValue : "",navText:""}),
+    getInitialState:()=>({searchValue : "",navText:"123"}),
     /**
      * 子组件上传参数
      * @param value
@@ -190,3 +190,4 @@ ReactDOM.render(
     <WjjBody/>,
     document.getElementById("jj_web_content")
 );
+
