@@ -18,17 +18,32 @@
  * body部分
  */
 var WjjBody = React.createClass({
-    getInitialState:()=>({searchValue : "",navText:"123"}),
+    /**
+     * 箭头函数
+     */
+    getInitialState:()=>({searchValue : "",navText:"123",navTabValue:"line"}),
     /**
      * 子组件上传参数
      * @param value
      */
-    onChildSearch:function(value){
+    onChildSearch:function(data){
+        console.log(data);
+        /**
+         * 赋值，如果undefined 则为 ""
+         */
       this.setState({
-          searchValue : value
+          searchValue : data.searchValue?data.searchValue: "",
+          navTabValue : data.navTabValue?data.navTabValue : ""
       })
     },
     render: function(){
+        let chartRoute;
+        if(this.state.navTabValue == "line"){
+            chartRoute = <WjjLineBody source="json/LineDemo.json" navText={this.state.navTabValue}/>;
+        }else{
+            chartRoute = <WjjBarBody source="json/BarDemo.json" navText={this.state.navTabValue}/>;
+        }
+
         return (
             /**
              * body 部分
@@ -38,18 +53,21 @@ var WjjBody = React.createClass({
                 <div className="wjjJianGe"/>
                 <WjjTableBody source="json/table.json" filterText={this.state.searchValue}/>
                 <div className="wjjJianGe" />
-                <WjjNavTab source="json/NavTab.json"/>
+                <WjjNavTab source="json/NavTab.json" navSearchValue={this.onChildSearch}/>
                 <div className="wjjJianGe" />
-                <WjjLineBody source="json/LineDemo1.json" navText={this.state.navText}/>
+                {chartRoute}
             </div>
         )
     }
 })
 
 /**
- * line body 部分
+ * bar body 部分
  */
-var WjjLineBody = React.createClass({
+var WjjBarBody = React.createClass({
+    /**
+     * 箭头函数
+     */
     getInitialState : ()=>({lineData:[]}),
     componentDidMount : function(){
         $.get(this.props.source,result=>{
@@ -57,13 +75,41 @@ var WjjLineBody = React.createClass({
         })
     },
     drawEchartsLine : (result = [])=>{
-        let myChart = echarts.init(document.getElementById("lineChart"));
-        let option = result.option;
-        option.xAxis.data = result.xData;
-        option.series[0].data = result.data;
+        console.log(result);
+        let myChart = echarts.init(document.getElementById("barChart")),
+            {option,xData,data} = result;
+        option.xAxis.data = xData;
+        option.series[0].data = data;
         myChart.setOption(option)
     },
-    render : ()=>(<div id="lineChart"></div>)
+    render : function(){
+        return (<div id="barChart"></div>)
+    }
+})
+
+/**
+ * line body 部分
+ */
+var WjjLineBody = React.createClass({
+    /**
+     * 箭头函数
+     */
+    getInitialState : ()=>({lineData:[]}),
+    componentDidMount : function(){
+        $.get(this.props.source,result=>{
+            this.drawEchartsLine(result);
+        })
+    },
+    drawEchartsLine : (result = [])=>{
+        let myChart = echarts.init(document.getElementById("lineChart")),
+            {option,xData,data} = result;
+        option.xAxis.data = xData;
+        option.series[0].data = data;
+        myChart.setOption(option)
+    },
+    render : function(){
+        return (<div id="lineChart"></div>)
+    }
 })
 
 /**
@@ -72,7 +118,7 @@ var WjjLineBody = React.createClass({
 var WjjNavTab = React.createClass({
     getInitialState : ()=>({data:[],selectIndex:0}),
     componentDidMount : function(){
-        $.get(this.props.source, (result)=>{
+        $.get(this.props.source, result=>{
             this.setState({
                 data : result.tab,
             })
@@ -82,6 +128,7 @@ var WjjNavTab = React.createClass({
         this.setState({
             selectIndex:e.index
         })
+        this.props.navSearchValue({"navTabValue" : e.item.item.name});
     },
     render : function(){
 
@@ -90,7 +137,7 @@ var WjjNavTab = React.createClass({
         data = data.map((item,index)=>{
             if(index == selectIndex)
                 return <li key={index} className="active" role="presentation"><a onClick={this.onClick.bind(this,{index})}>{item.name}</a></li>
-            return <li key={index} role="presentation"><a onClick={this.onClick.bind(this,{index})}>{item.name}</a></li>;
+            return <li key={index} role="presentation"><a onClick={this.onClick.bind(this,({"index":index,"item":{item}}))}>{item.name}</a></li>;
         });
 
         return (
@@ -118,9 +165,9 @@ var WjjTableBody = React.createClass({
          * 用的jquery的读取json文件
          */
         this.serverRequest = $.get(this.props.source, function (result) {
-            var tableView = result.wjj.wjjTable;
+            let {wjjTable} = result.wjj;
             this.setState({
-                row :tableView.map(function(item,index){
+                row :wjjTable.map((item,index)=>{
                     return (
                         /**
                          * 注意这里的key ， 批量生成的如li，tr等，不写key的话，部分版本的react会警告
@@ -136,15 +183,13 @@ var WjjTableBody = React.createClass({
         }.bind(this));
     },
     render : function(){
-        var row = this.state.row;
-        var filterText = this.props.filterText
+        let row = this.state.row;
+        let filterText = this.props.filterText
+
         if(row&&filterText!=""){
-            row = row.filter(function(item){
-                return item.key==filterText;
-            }).map(function(item){
-                return item;
-            })
+            row = row.filter(item=>item.key==filterText).map(item=>item);
         }
+
         return (
             <table className="table">
                 <tbody>
@@ -161,15 +206,17 @@ var WjjTableBody = React.createClass({
 var WjjSearchBody = React.createClass({
     getInitialState: ()=> ({value: ""}),
     handClick : function(event){
-        var value = this.state.value;
-        this.props.searchValue(value);
+        let data = {
+            searchValue : this.state.value
+        }
+        this.props.searchValue(data);
     },
     handChange:function(event){
-        var value = event.target.value;
+        let data = {"searchValue":event.target.value};
         this.setState({
-            value : value
+            value : data.searchValue
         });
-        this.props.searchValue(value);
+        this.props.searchValue(data);
     },
     render: function(){
         var value = this.state.value;

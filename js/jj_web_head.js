@@ -8,14 +8,25 @@
  * 如果有学习react的朋友，可以参照下，入门初学者的写法。可能会对你的自学有帮助
  */
 var WjjTitle = React.createClass({
+    /**
+     * 箭头函数，默认函数操作
+     * @returns {XML}
+     */
     render : ()=>{
+
         let userName = "xiao8",
+            /**
+             * es6的语法， 使用反引号，可以用userName进行操作
+             * @type {string}
+             */
             title = `欢迎来到${userName}的可视化驿站`;
 
-        return (<div className="col-md-12 wjjTitleBackground">
-                    <h1 className="col-md-8">{title}</h1>
-                    <img className="wjjPic" src="images/123.png"/>
-                    </div>)
+        return (
+            <div className="col-md-12 wjjTitleBackground">
+                <h1 className="col-md-8">{title}</h1>
+                <img className="wjjPic" src="images/123.png"/>
+            </div>
+        )
     }
 })
 
