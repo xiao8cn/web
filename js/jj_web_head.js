@@ -19,7 +19,7 @@ var WjjTitle = React.createClass({
              * es6的语法， 使用反引号，可以用userName进行操作
              * @type {string}
              */
-            title = `欢迎来到${userName}的可视化驿站`;
+            title = `欢迎来到啊啊${userName}的可视化驿站`;
 
         return (
             <div className="col-md-12 wjjTitleBackground">
